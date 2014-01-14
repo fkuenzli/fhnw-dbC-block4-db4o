@@ -6,8 +6,6 @@
  * (c) 2014
  */
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 
@@ -15,9 +13,9 @@ public class Game {
 	private int id;
 	private GregorianCalendar starttime;
 	private String location;
-	private int teamHomeId;
-	private int teamAwayId;
-	private int roundID;
+	private Team teamHome;
+	private Team teamAway;
+	private Round round;
 	
 	public Game() {
 		
@@ -28,11 +26,11 @@ public class Game {
 		this.location = location;
 	}
 	
-	public Game(GregorianCalendar starttime, String location, int teamHomeId, int teamAwayId) {
+	public Game(GregorianCalendar starttime, String location, Team teamHome, Team teamAway) {
 		this.starttime = starttime;
 		this.location = location;
-		this.teamHomeId = teamHomeId;
-		this.teamAwayId = teamAwayId;
+		this.teamHome = teamHome;
+		this.teamAway = teamAway;
 	}
 
 	public GregorianCalendar getStarttime() {
@@ -59,28 +57,28 @@ public class Game {
 		this.id = id;
 	}
 
-	public int getTeamHomeId() {
-		return teamHomeId;
+	public Team getTeamHomeId() {
+		return teamHome;
 	}
 
-	public void setTeamHomeId(int teamHomeId) {
-		this.teamHomeId = teamHomeId;
+	public void setTeamHomeId(Team teamHome) {
+		this.teamHome = teamHome;
 	}
 
-	public int getTeamAwayId() {
-		return teamAwayId;
+	public Team getTeamAwayId() {
+		return teamAway;
 	}
 
-	public void setTeamAwayId(int teamAwayId) {
-		this.teamAwayId = teamAwayId;
+	public void setTeamAwayId(Team teamAway) {
+		this.teamAway = teamAway;
 	}
 
-	public int getRoundID() {
-		return roundID;
+	public Round getRoundID() {
+		return round;
 	}
 
-	public void setRoundID(int roundID) {
-		this.roundID = roundID;
+	public void setRoundID(Round round) {
+		this.round = round;
 	}
 	
 	
