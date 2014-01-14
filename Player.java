@@ -21,7 +21,14 @@ public class Player extends Person {
 	
 	public Player(String firstname, String lastname) {
 		super(firstname, lastname);
-		// TODO Auto-generated constructor stub
+	}
+	
+	public Player(String firstname, String lastname, int licenceID, double height, double weight, String mainPosition) {
+		super(firstname, lastname);
+		this.licenceID = licenceID;
+		this.height = height;
+		this.weight = weight;
+		this.mainPosition = mainPosition;
 	}
 	
 	public int getPersonID() {
