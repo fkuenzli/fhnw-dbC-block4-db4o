@@ -1,7 +1,3 @@
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
-
 /*
  * Written by Fabian Kuenzli
  * University of Applied Sciences of Northwestern Switzerland, FHNW
@@ -10,6 +6,9 @@ import com.db4o.ObjectSet;
  * (c) 2014
  */
 
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
 
 public class Usecase {
 
