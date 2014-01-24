@@ -8,34 +8,41 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 
 public class Usecase {
+	
+	private static ObjectContainer db = null;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		
-		ObjectContainer db = null;
+		
+		/**
+		 * creates new database file  
+		 */
 		db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), createTemporaryDatabaseFile().getAbsolutePath());
+		
+		
 		try {
-			
-			usecase1(db);
-			usecase2(db);
+			usecase1();
+			usecase2();
+			usecase3();
+			usecase4();
 			
 		} catch(Exception e) {
-			
 			e.printStackTrace();
 		} finally {
 			if(db != null) {
 				db.close();
 			}			
 		}
-		
 	}
 	
 	/**
@@ -54,71 +61,82 @@ public class Usecase {
 		return database;
 	}
 	
-	/**
-	 * 
-	 * @param db
-	 */
-	public static void usecase1(ObjectContainer db) {
+	public static void usecase1() {
 		try {
+			System.out.println();
+			System.out.println("Usecase 1: Erstelle ein neues Team inkl. Coaches, Spielern und Fans und teile es einem bestehenden Club zu.");
+			System.out.println("************************************");
+			System.out.println();
+			
 			Team team = new Team("Handball Brugg 2");
-			team.getFans().add(new Fan("Marylin", "Kellar"));
-			team.getFans().add(new Fan("Clayton", "Segers"));
-			team.getFans().add(new Fan("Loise", "Herd"));
+			team.getFans().add(addFan("Marylin", "Kellar"));
+			team.getFans().add(addFan("Clayton", "Segers"));
+			team.getFans().add(addFan("Loise", "Herd"));
+			team.getCoaches().add(addCoach("Oretha","Hendrie",5));
+			addPlayer("Steven", "Hunter", 395067, 1.81, 78, "Flügel links",team);
+			addPlayer("Larry", "Zimmerman", 532373, 1.98, 101, "Rückraum links",team);
+			addPlayer("Darnell", "Garza", 712573, 1.71, 70, "Hinten mitte",team);
+			
 			db.store(team);
+			System.out.println("Added team: " + team.getName());
+			System.out.println();
 			
 			team = new Team ("SV Lägern Wettingen 2");
-			team.getFans().add(new Fan("Adria", "Shimek"));
-			team.getFans().add(new Fan("Carole", "Farias"));
+			team.getFans().add(addFan("Adria", "Shimek"));
+			team.getFans().add(addFan("Carole", "Farias"));
+			team.getCoaches().add(addCoach("Jennie","Rollison",2));
+			addPlayer("Noah", "Cole", 143280, 1.88, 93, "Rückraum rechts",team);
+			addPlayer("Floyd", "Mckinney", 487733, 1.91, 95, "Kreis",team);
+			
 			db.store(team);
+			System.out.println("Added team: " + team.getName());
+			System.out.println();
 			
 			team = new Team ("TV Brittnau 1");
-			team.getFans().add(new Fan("Hyo", "Southerland"));
-			team.getFans().add(new Fan("Brent", "Sheets"));
+			team.getFans().add(addFan("Hyo", "Southerland"));
+			team.getFans().add(addFan("Brent", "Sheets"));
+			team.getCoaches().add(addCoach("Jolyn","Fenstermaker",2));
+			addPlayer("Peter", "Estrada", 360103, 1.77, 65, "Rückraum links",team);
+			addPlayer("Woodrow", "Cross", 613561, 1.73, 63, "Flügel rechts",team);
+			addPlayer("Kelly", "Jensen", 386101, 1.98, 92, "Rückraum rechts",team);
+			
 			db.store(team);
+			System.out.println("Added team: " + team.getName());
+			System.out.println();
 			
 			team = new Team ("STV Baden 2");
-			team.getFans().add(new Fan("Zaida", "Begin"));
-			team.getFans().add(new Fan("Jc", "Calcote"));
-			team.getFans().add(new Fan("Dianne", "Gilligan"));
+			team.getFans().add(addFan("Zaida", "Begin"));
+			team.getFans().add(addFan("Jc", "Calcote"));
+			team.getFans().add(addFan("Dianne", "Gilligan"));
+			team.getCoaches().add(addCoach("Lucinda","Peet",4));
+			addPlayer("Shawn", "Cook", 136187, 1.92, 90, "Rückraum links",team);
+			addPlayer("Cedric", "Soto", 334343, 1.69, 69, "Flügel links",team);
+			
 			db.store(team);
+			System.out.println("Added team: " + team.getName());
+			System.out.println();
 			
 			
 			Club club = new Club("Handball Brugg");
-			club.addTeam(getTeamByName(db,"Handball Brugg 2"));
+			club.addTeam(getTeamByName("Handball Brugg 2"));
 			db.store(club);
+			System.out.println("Added club: " + club.getName());
 			
 			club = new Club("SV Lägern Wettingen");
-			club.addTeam(getTeamByName(db,"SV Lägern Wettingen 2"));
+			club.addTeam(getTeamByName("SV Lägern Wettingen 2"));
 			db.store(club);
+			System.out.println("Added club: " + club.getName());
 			
 			club = new Club("TV Brittnau Handball");
-			club.addTeam(getTeamByName(db,"TV Brittnau 1"));
+			club.addTeam(getTeamByName("TV Brittnau 1"));
 			db.store(club);
+			System.out.println("Added club: " + club.getName());
 			
 			club = new Club("STV Baden");
-			club.addTeam(getTeamByName(db,"STV Baden 2"));
+			club.addTeam(getTeamByName("STV Baden 2"));
+			db.store(club);
+			System.out.println("Added club: " + club.getName());
 			
-			
-			
-			
-			/*			
-			db.store(new Coach("Oretha","Hendrie",5));
-			db.store(new Coach("Jennie","Rollison",2));
-			db.store(new Coach("Jolyn","Fenstermaker",2));
-			db.store(new Coach("Lucinda","Peet",4));
-			
-			db.store(new Player("Steven", "Hunter", 395067, 1.81, 78, "Flügel links"));
-			db.store(new Player("Larry", "Zimmerman", 532373, 1.98, 101, "Rückraum links"));
-			db.store(new Player("Darnell", "Garza", 712573, 1.71, 70, "Hinten mitte"));
-			db.store(new Player("Noah", "Cole", 143280, 1.88, 93, "Rückraum rechts"));
-			db.store(new Player("Floyd", "Mckinney", 487733, 1.91, 95, "Kreis"));
-			db.store(new Player("Peter", "Estrada", 360103, 1.77, 65, "Rückraum links"));
-			db.store(new Player("Woodrow", "Cross", 613561, 1.73, 63, "Flügel rechts"));
-			db.store(new Player("Kelly", "Jensen", 386101, 1.98, 92, "Rückraum rechts"));
-			db.store(new Player("Shawn", "Cook", 136187, 1.92, 90, "Rückraum links"));
-			db.store(new Player("Cedric", "Soto", 334343, 1.69, 69, "Flügel links"));
-			*/
-								
 			db.commit();
 			
 		} catch(Exception e) {
@@ -130,21 +148,23 @@ public class Usecase {
 		
 	}
 	
-	/**
-	 * 
-	 * @param db
-	 */
-	public static void usecase2(ObjectContainer db) {
+	public static void usecase2() {
 		try {
+			System.out.println();
+			System.out.println("Usecase 2: Lösche einen Coach von einem Team und weise einen neuen zu.");
+			System.out.println("************************************");
+			System.out.println();
 			
-			/*
-			 * do some database manipulations
-			 * ...
-			 * 
-			 * 
-			 * db.store(OBJECT);
-			 * 
-			*/
+			Team team = getTeamByName("Handball Brugg 2");
+			Coach coach = getCoachByName("Oretha","Hendrie");
+			team.getCoaches().remove(coach);
+			System.out.println("Removed coach " + coach.getFirstname() + " " + coach.getLastname() + " from team " + team.getName());
+			
+			coach = new Coach("Eric","Morales",7);
+			team.getCoaches().add(coach);
+			System.out.println("Added coach " + coach.getFirstname() + " " + coach.getLastname() + " to team " + team.getName());
+			
+			db.store(team);
 			
 			db.commit();
 			
@@ -156,13 +176,70 @@ public class Usecase {
 		}
 	}
 	
+	
+	public static void usecase3() {
+		try {
+			System.out.println();
+			System.out.println("Usecase 3: Liste alle Spieler von [team] auf.");
+			System.out.println("************************************");
+			System.out.println();
+			
+			Team team = getTeamByName("TV Brittnau 1");
+			
+			
+			ObjectSet<Player> players = db.query(Player.class);
+			ArrayList<Player> playersOfTeam = new ArrayList<Player>();
+			
+			for(Player player: players) {
+				if(player.getTeam() == team) {
+					playersOfTeam.add(player);
+				}
+			}
+			
+			for(Player player: playersOfTeam) {
+				System.out.println(player.getFirstname() + " " + player.getLastname() + " (License ID: " + player.getLicenceID() + "): " + player.getHeight() + "m, " + player.getWeight() + "kg, " + player.getMainPosition());;
+			}
+			
+			db.commit();
+			
+		} catch(Exception e) {
+			db.rollback();
+			e.printStackTrace();
+		} finally {
+			
+		}
+	}
+	
+	public static void usecase4() {
+		try {
+			System.out.println();
+			System.out.println("Usecase 4: Change the name of a club");
+			System.out.println("************************************");
+			System.out.println();
+			
+			Club club = getClubByName("STV Baden");
+			System.out.println("Old name: " + club.getName());
+			club.setName("Handballverein Baden");
+			System.out.println("New name: " + club.getName());
+			
+			db.store(club);
+			db.commit();
+			
+		} catch(Exception e) {
+			db.rollback();
+			e.printStackTrace();
+		} finally {
+			
+		}
+	}
+	
+	
 	/**
 	 * 
-	 * @param db
 	 * @param name
 	 * @return
 	 */
-	public static Team getTeamByName(ObjectContainer db, String name) {
+	public static Team getTeamByName(String name) {
 		Team team = new Team(name);
 		ObjectSet<Team> teams = db.queryByExample(team);
 		
@@ -171,4 +248,71 @@ public class Usecase {
 		}
 		return team;
 	}
+	
+	public static Club getClubByName(String name) {
+		Club club = new Club(name);
+		ObjectSet<Club> clubs = db.queryByExample(club);
+		
+		for(Club clubIter: clubs) {
+			club = clubIter;
+		}
+		return club;
+	}
+	
+	/**
+	 * 
+	 * @param firstname
+	 * @param lastname
+	 * @return
+	 */
+	public static Fan addFan(String firstname, String lastname) {
+		Fan fan = new Fan(firstname, lastname);
+		db.store(fan);
+		System.out.println("Added fan: " + fan.getFirstname() + " " + fan.getLastname());
+		return fan;
+	}
+	
+	/**
+	 * 
+	 * @param firstname
+	 * @param lastname
+	 * @param level
+	 * @return
+	 */
+	public static Coach addCoach(String firstname, String lastname, int level) {
+		Coach coach = new Coach(firstname, lastname, level);
+		db.store(coach);
+		System.out.println("Added coach: " + coach.getFirstname() + " " + coach.getLastname());
+		return coach;
+	}
+	
+	public static Coach getCoachByName(String firstname, String lastname) {
+		Coach coach = new Coach(firstname, lastname);
+		ObjectSet<Coach> coaches = db.queryByExample(coach);
+		
+		for(Coach coachIter: coaches) {
+			coach = coachIter;
+		}
+		return coach;
+	}
+	
+	/**
+	 * 
+	 * @param firstname
+	 * @param lastname
+	 * @param licenceID
+	 * @param height
+	 * @param weight
+	 * @param position
+	 * @return
+	 */
+	public static Player addPlayer(String firstname, String lastname, int licenceID, double height, double weight, String position, Team team) {
+		Player player = new Player(firstname, lastname, licenceID, height, weight, position);
+		player.setTeam(team);
+		db.store(player);
+		System.out.println("Added player: " + player.getFirstname() + " " + player.getLastname());
+		return player;
+	}
+	
+	
 }
