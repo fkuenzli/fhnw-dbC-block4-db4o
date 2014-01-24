@@ -9,7 +9,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -25,7 +24,8 @@ public class Usecase {
 		
 		
 		/**
-		 * creates new database file  
+		 * creates new database file
+		 *  
 		 */
 		db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), createTemporaryDatabaseFile().getAbsolutePath());
 		
@@ -145,7 +145,6 @@ public class Usecase {
 		} finally {
 			
 		}
-		
 	}
 	
 	public static void usecase2() {
@@ -249,6 +248,11 @@ public class Usecase {
 		return team;
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public static Club getClubByName(String name) {
 		Club club = new Club(name);
 		ObjectSet<Club> clubs = db.queryByExample(club);
@@ -286,6 +290,12 @@ public class Usecase {
 		return coach;
 	}
 	
+	/**
+	 * 
+	 * @param firstname
+	 * @param lastname
+	 * @return
+	 */
 	public static Coach getCoachByName(String firstname, String lastname) {
 		Coach coach = new Coach(firstname, lastname);
 		ObjectSet<Coach> coaches = db.queryByExample(coach);
@@ -304,6 +314,7 @@ public class Usecase {
 	 * @param height
 	 * @param weight
 	 * @param position
+	 * @param team
 	 * @return
 	 */
 	public static Player addPlayer(String firstname, String lastname, int licenceID, double height, double weight, String position, Team team) {
