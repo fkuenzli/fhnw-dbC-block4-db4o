@@ -19,6 +19,10 @@ public class Coach extends Person {
 		
 	}
 	
+	public Coach(String firstname, String lastname) {
+		super(firstname, lastname);
+	}
+	
 	public Coach(String firstname, String lastname, int level) {
 		super(firstname, lastname);
 		this.level = level;
