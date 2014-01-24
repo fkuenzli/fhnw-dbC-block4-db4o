@@ -13,7 +13,7 @@ public class Player extends Person {
 	private double height;
 	private double weight;
 	private String mainPosition;
-	private int teamID;
+	private Team team;
 	
 	public Player() {
 		
@@ -71,11 +71,11 @@ public class Player extends Person {
 		this.mainPosition = mainPosition;
 	}
 
-	public int getTeamID() {
-		return teamID;
+	public Team getTeam() {
+		return team;
 	}
 
-	public void setTeamID(int teamID) {
-		this.teamID = teamID;
-	}	
+	public void setTeam(Team team) {
+		this.team = team;
+	}
 }
