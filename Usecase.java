@@ -24,8 +24,8 @@ public class Usecase {
 		db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), createTemporaryDatabaseFile().getAbsolutePath());
 		try {
 			
-			createTestData(db);
 			usecase1(db);
+			usecase2(db);
 			
 		} catch(Exception e) {
 			
@@ -58,7 +58,7 @@ public class Usecase {
 	 * 
 	 * @param db
 	 */
-	public static void createTestData(ObjectContainer db) {
+	public static void usecase1(ObjectContainer db) {
 		try {
 			Team team = new Team("Handball Brugg 2");
 			team.getFans().add(new Fan("Marylin", "Kellar"));
@@ -99,6 +99,8 @@ public class Usecase {
 			club.addTeam(getTeamByName(db,"STV Baden 2"));
 			
 			
+			
+			
 			/*			
 			db.store(new Coach("Oretha","Hendrie",5));
 			db.store(new Coach("Jennie","Rollison",2));
@@ -132,7 +134,7 @@ public class Usecase {
 	 * 
 	 * @param db
 	 */
-	public static void usecase1(ObjectContainer db) {
+	public static void usecase2(ObjectContainer db) {
 		try {
 			
 			/*
